@@ -1,0 +1,50 @@
+-- 2a
+
+SELECT * FROM timelistelinje WHERE timelistenr = 3;
+
+-- 2b
+
+SELECT count(timelistenr) AS ant_timelister FROM timeliste; 
+
+-- 2c 
+
+SELECT count(*) AS ikke_utbetalt FROM timeliste WHERE utbetalt IS NULL;
+
+-- 2d
+
+SELECT count(timelistenr) AS antall, count(pause) AS antall_pause FROM timelistelinje;
+
+-- 2e
+
+SELECT count(timelistenr) AS antall FROM timelistelinje WHERE pause IS NULL;
+
+-- 3a
+
+SELECT sum(varighet)/60 AS ant_timer FROM timeliste AS t INNER JOIN varighet AS v
+ON (t.timelistenr = v.timelistenr) WHERE t.utbetalt IS NULL;
+
+-- 3b
+
+SELECT DISTINCT t.beskrivelse, t.timelistenr FROM timeliste AS t inner join timelistelinje AS tl
+ON(t.timelistenr = tl.timelistenr) WHERE tl.beskrivelse LIKE '%test%' OR tl.beskrivelse LIKE '%Test%';
+
+-- 3c
+
+SELECT (sum(varighet)/60)*200 AS penger FROM timeliste AS t INNER JOIN varighet AS v
+ON (t.timelistenr = v.timelistenr) WHERE t.utbetalt IS NOT NULL;
+
+
+-- 4a
+/*
+Disse to spørringer gir ikke likt svar fordi på den første så gjør vi natural join
+og det betyr at vi joiner på de kolonnene som har likt navn, mens på den andre gjør vi inner join
+og her teller vi alle rader etter vi slår sammen de to tabellene, altså alle radene som har likt timelistenr
+*/
+
+-- 4b
+
+/*
+De to spørringer gir likt svar fordi vi joiner tabellen timeliste og view varighet 
+her er det altså samme prinsipp som 4a men siden det er join med view og ikke en annen tabell
+så vil svaret være forskjellig enn 4a og spørringene blir altså ekvivalente 
+*/
